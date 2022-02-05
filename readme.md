@@ -1,7 +1,7 @@
 # Basic Bank Account Management System using Spring, Axon and CQRS
 
-The user of this bank account management system is able to create a wallet, add funds, withdraw funds, transfer funds to
-a different wallet, and delete a wallet.
+The user of this bank account management system is able to create an account, add funds, withdraw funds, transfer funds to
+a different account, and delete an account.
 
 The primary aim of this project is to use event sourcing for these actions. The secondary aim of this project will be to
 explore how to implement automated tests for these actions, and thus how to combine the implementation of the Command 
