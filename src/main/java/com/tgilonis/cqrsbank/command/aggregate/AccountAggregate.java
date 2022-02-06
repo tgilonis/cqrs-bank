@@ -1,4 +1,4 @@
-package com.tgilonis.cqrsbank.aggregate;
+package com.tgilonis.cqrsbank.command.aggregate;
 
 import java.math.BigDecimal;
 
