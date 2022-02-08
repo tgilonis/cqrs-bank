@@ -41,7 +41,7 @@ public class AccountCommandService
      * @param depositRequest a request containing the amount to be debited.
      * @return the id of the account.
      */
-    public CompletableFuture<String> deposit(DepositRequest depositRequest)
+    public CompletableFuture<String> depositIntoAccount(DepositRequest depositRequest)
     {
         return commandGateway.send(new DepositMoneyCommand(
                 depositRequest.getAccountId(),
@@ -55,7 +55,7 @@ public class AccountCommandService
      * @param withdrawalRequest a request containing the amount to be credited.
      * @return the id of the account.
      */
-    public CompletableFuture<String> withdraw(WithdrawalRequest withdrawalRequest)
+    public CompletableFuture<String> withdrawFromAccount(WithdrawalRequest withdrawalRequest)
     {
         return commandGateway.send(new WithdrawMoneyCommand(
                 withdrawalRequest.getAccountId(),

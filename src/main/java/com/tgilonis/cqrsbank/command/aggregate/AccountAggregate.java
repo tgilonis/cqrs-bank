@@ -88,12 +88,12 @@ public class AccountAggregate
     /**
      * Handles the event generated from the DepositMoneyCommand.
      * Adds the amount from the event to the account balance.
-     * @param accountDebitedEvent an AccountDebitedEvent generated from the DepositMoneyCommand.
+     * @param accountCreditedEvent an AccountCreditedEvent generated from the DepositMoneyCommand.
      */
     @EventSourcingHandler
-    public void on(AccountDebitedEvent accountDebitedEvent)
+    public void on(AccountCreditedEvent accountCreditedEvent)
     {
-        this.balance = this.balance.add(accountDebitedEvent.getAmount());
+        this.balance = this.balance.add(accountCreditedEvent.getAmount());
     }
 
     /**
@@ -113,12 +113,12 @@ public class AccountAggregate
     /**
      * Handles the event generated from the WithdrawMoneyCommand.
      * Subtracts the amount from the event to the account balance.
-     * @param accountCreditedEvent an AccountCreditedEvent generated from the WithdrawMoneyCommand.
+     * @param accountDebitedEvent an AccountDebitedEvent generated from the WithdrawMoneyCommand.
      */
     @EventSourcingHandler
-    public void on(AccountCreditedEvent accountCreditedEvent)
+    public void on(AccountDebitedEvent accountDebitedEvent)
     {
-        this.balance = this.balance.subtract(accountCreditedEvent.getAmount());
+        this.balance = this.balance.subtract(accountDebitedEvent.getAmount());
     }
 
 }
