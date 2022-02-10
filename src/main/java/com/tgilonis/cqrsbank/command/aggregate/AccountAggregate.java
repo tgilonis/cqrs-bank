@@ -79,7 +79,7 @@ public class AccountAggregate
     @CommandHandler
     public void on(DepositMoneyCommand depositMoneyCommand)
     {
-        AggregateLifecycle.apply(new AccountDebitedEvent(
+        AggregateLifecycle.apply(new AccountCreditedEvent(
                 depositMoneyCommand.getId(),
                 depositMoneyCommand.getAmount()
         ));
@@ -104,7 +104,7 @@ public class AccountAggregate
     @CommandHandler
     public void on(WithdrawMoneyCommand withdrawMoneyCommand)
     {
-        AggregateLifecycle.apply(new AccountCreditedEvent(
+        AggregateLifecycle.apply(new AccountDebitedEvent(
                 withdrawMoneyCommand.getId(),
                 withdrawMoneyCommand.getAmount()
         ));
