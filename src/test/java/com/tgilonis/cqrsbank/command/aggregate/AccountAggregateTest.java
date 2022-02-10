@@ -8,6 +8,7 @@ import com.tgilonis.cqrsbank.common.event.AccountActivatedEvent;
 import com.tgilonis.cqrsbank.common.event.AccountCreatedEvent;
 import com.tgilonis.cqrsbank.common.event.AccountCreditedEvent;
 import com.tgilonis.cqrsbank.common.event.AccountDebitedEvent;
+import org.axonframework.modelling.command.AggregateNotFoundException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.axonframework.test.aggregate.FixtureConfiguration;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,23 +29,13 @@ class AccountAggregateTest
     @Test
     void onCreateAccountCommand()
     {
-        fixture.given()
+        fixture.givenNoPriorActivity()
                 .when(new CreateAccountCommand("id", BigDecimal.valueOf(10000)))
                 .expectSuccessfulHandlerExecution()
                 .expectEvents(
                         new AccountCreatedEvent("id", BigDecimal.valueOf(10000)),
                         new AccountActivatedEvent("id", "ACTIVATED")
                 );
-    }
-
-    @Test
-    void onAccountCreatedEvent()
-    {
-    }
-
-    @Test
-    void onAccountActivatedEvent()
-    {
     }
 
     @Test
@@ -57,16 +48,18 @@ class AccountAggregateTest
     }
 
     @Test
+    public void depositMoneyOnNonexistentAccount() {
+        fixture.given()
+                .when(new DepositMoneyCommand("id", BigDecimal.valueOf(5000)))
+                .expectException(AggregateNotFoundException.class);
+    }
+
+    @Test
     void onWithdrawMoneyCommand()
     {
         fixture.given(new AccountCreatedEvent("id", BigDecimal.valueOf(10000)), new AccountActivatedEvent("id", "ACTIVATED"))
                 .when(new WithdrawMoneyCommand("id", BigDecimal.valueOf(5000)))
                 .expectSuccessfulHandlerExecution()
                 .expectEvents(new AccountDebitedEvent("id", BigDecimal.valueOf(5000)));
-    }
-
-    @Test
-    void onAccountDebitedEvent()
-    {
     }
 }
