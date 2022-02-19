@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.axonframework.test.matchers.Matchers.*;
+
 class AccountAggregateTest
 {
     private FixtureConfiguration<AccountAggregate> fixture;
@@ -32,9 +34,12 @@ class AccountAggregateTest
         fixture.givenNoPriorActivity()
                 .when(new CreateAccountCommand("id", BigDecimal.valueOf(10000)))
                 .expectSuccessfulHandlerExecution()
-                .expectEvents(
-                        new AccountCreatedEvent("id", BigDecimal.valueOf(10000)),
-                        new AccountActivatedEvent("id", "ACTIVATED")
+                .expectEventsMatching(payloadsMatching(
+                        exactSequenceOf(
+                        equalTo(new AccountCreatedEvent("id", BigDecimal.valueOf(10000))),
+                        equalTo(new AccountActivatedEvent("id", "ACTIVATED"))
+                        )
+                    )
                 );
     }
 
